@@ -4,7 +4,7 @@
 #number of good quality (above a certain mapping quality threshold and read length) singly aligned 
 #reads for every sgRNA in the reference sequence database. 
 #The input text for the command line is:
-#countxpression.py mapqualitythreshold, lengththreshold, outputstatsfilename, anynumberofinputfiles ...  
+#countxpression.py mapqualitythreshold (255), lengththreshold (20), outputstatsfilename, anynumberofinputfiles ...  
 
 import operator
 
