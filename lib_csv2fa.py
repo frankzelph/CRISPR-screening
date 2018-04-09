@@ -13,7 +13,7 @@ def main(infile, outfile):
 #		print line
 		tmp = re.split('\,', line.rstrip())
 		#print tmp
-		outlines += '>' + tmp[0] + '_'+tmp[1]+ '\n' + tmp[2] + '\n'
+		outlines += '>' + tmp[0] + '$'+tmp[1]+ '\n' + tmp[2] + '\n'
 		#print outlines
 	fout.write(outlines)
 	fin.close()
