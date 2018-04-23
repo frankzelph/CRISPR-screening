@@ -1,5 +1,5 @@
 # CRISPR-screening
-Processed for pooled sgRNA screening analysis.
+Procedures for pooled sgRNA screening analysis.
 1. QC: fastqc
 2. Trim: cutadapt
 3. Reads mapping: bowtie
