@@ -4,12 +4,23 @@
 #number of good quality (above a certain mapping quality threshold and read length) singly aligned 
 #reads for every sgRNA in the reference sequence database. 
 #The input text for the command line is:
-#countxpression.py mapqualitythreshold (255), lengththreshold (20), outputstatsfilename, anynumberofinputfiles ...  
+#countxpression.py sgRNA_lib mapqualitythreshold (255), lengththreshold (20), outputstatsfilename, anynumberofinputfiles ...  
+
+# make sure the sgRNA_ID is the first column of the sgRNA_lib file
 
 import operator
+import re
 
-def countxpression(infilename, threshold, lengththresh, statsfile, countsfile, flag):
+def countxpression(infilename, sgRNA_lib, threshold, lengththresh, statsfile, countsfile, flag):
 	print " Count reads for ", infilename
+	# load sgRNA_lib
+	sgRNAs={}
+	fsgRNA = open(sgRNA_lib, 'r')	
+	fst_line = fsgRNA.readline()
+	for line in fsgRNA:
+		sgRNA_id = re.split(',', line)[0]
+		sgRNAs[sgRNA_id] = 0
+	fsgRNA.close()
 	#Opens an infile specified by the user. Should be a .sam file 
 	IN = open(infilename, 'r')
 	
@@ -26,15 +37,12 @@ def countxpression(infilename, threshold, lengththresh, statsfile, countsfile, f
 	perfect_aligned=0
 	
 	#Starts a for loop to read through the infile line by line
-	sgRNAs={}
+
 	for line in IN:
 	
 		line=line.rstrip()
 		cols=line.split('\t')
-		
-		if cols[0]=="@SQ": #Generate dictionary of contig names
-			sgRNA_ID=cols[1].split(':')[1]
-			sgRNAs[sgRNA_ID]=0
+
 		if cols[0][0] != '@' : #to skip past header
 			totreads+=1
 			if float(cols[1]) == 4 or float(cols[1]) == 20: #this is to count reads that are flagged as unaligned
@@ -72,14 +80,14 @@ def countxpression(infilename, threshold, lengththresh, statsfile, countsfile, f
 
 if __name__=="__main__":
 	import sys
-	filelist=sys.argv[4:]
+	filelist=sys.argv[5:]
 	filenum = 0
 	for file in filelist:
 		filenum += 1
 		if filenum == 1:
-			countxpression(file, sys.argv[1], sys.argv[2], sys.argv[3], file[:-4]+'_counts.txt', 1)
+			countxpression(file, sys.argv[1], sys.argv[2], sys.argv[3],sys.argv[4], file[:-4]+'_counts.txt', 1)
 		if filenum > 1:
-			countxpression(file, sys.argv[1], sys.argv[2], sys.argv[3], file[:-4]+'_counts.txt', 0)
+			countxpression(file, sys.argv[1], sys.argv[2], sys.argv[3],sys.argv[4], file[:-4]+'_counts.txt', 0)
 
 
 
