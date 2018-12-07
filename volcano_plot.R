@@ -1,4 +1,7 @@
 
+# create a PDF file
+pdf(file="Volcano_plot.pdf")
+
 res <- read.table("1x_primary.gene_summary.txt",sep=',',header=T)
 head(res)
 
@@ -25,4 +28,4 @@ TCR_sig <- toupper(TCR_sig)
 library(calibrate)
 with(subset(res2, (pos.fdr < 0.2 | neg.fdr < 0.2) & abs(Zscore) > 2 & is.element(id, TCR_sig)), textxy(Zscore, ifelse(Zscore > 0, -log10(pos.p.value), -log10(neg.p.value)), labs=id, cex=.5, col="green"))
 
-
+dev.off()

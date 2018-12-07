@@ -3,8 +3,11 @@ library(dplyr)
 library(ggplot2)
 library(ggrepel)
 
+# create a PDF file
+pdf(file="Volcano_plot_2.pdf")
+
 res <- read.table("1x_primary.gene_summary.txt",sep=',',header=T)
-head(res)
+#head(res)
 
 # Calculate Z score
 pop_sd <- sd(res$pos.lfc)*sqrt((length(res$pos.lfc)-1)/length(res$pos.lfc))
@@ -15,11 +18,13 @@ res2 <- data.frame(res, Zscore=pos_zScore)
 # Classify data into three classes
 res2 <- mutate(res2, clas=ifelse((neg.fdr<0.2 & Zscore<(-2)),"Neg_top_hits", ifelse((pos.rank<21 & Zscore>2),"Pos_top_hits","Not concerned")))
 
+
 # Plot 
 p <- ggplot(res2, aes(Zscore, ifelse(Zscore > 0, -log10(pos.p.value), -log10(neg.p.value)))) +
 	geom_point(aes(col=clas)) +
-	scale_color_manual(values=c("red","black","blue"))
-p
+	scale_color_manual(values=c("red","black","blue")) +
+	labs(title="GW Screen for T Cell Proliferation", x="Zscore", y="-log10(p-value)") +
+	theme(plot.title=element_text(hjust=0.5))
 
 # Label dots with gene name
 p+geom_text_repel(data=filter(res2, (pos.rank < 21 | neg.fdr < 0.2) & abs(Zscore) > 2 ), aes(label=id))
@@ -32,7 +37,6 @@ TCR_sig <- toupper(TCR_sig)
 p+geom_text_repel(data=filter(res2, (pos.fdr < 0.2 | neg.fdr < 0.2) & abs(Zscore) > 2 & is.element(id, TCR_sig)), aes(label=id))
 
 # Add title and axis labels
-p+labs(title="GW Screen for T Cell Proliferation", x="Zscore", y="-log10(p-value)") +
-theme(plot.title=element_text(hjust=0.5))
 
 
+dev.off()
