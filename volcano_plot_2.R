@@ -1,12 +1,20 @@
+#!/usr/bin/Rscript
+#
+# Usage: Rscript volcano_plot_2.R gene_summary.txt volcano_plot_2.pdf
+
 # Load packages
 library(dplyr)
 library(ggplot2)
 library(ggrepel)
 
-# create a PDF file
-pdf(file="Volcano_plot_2.pdf")
+args <- commandArgs(trailingOnly=TRUE)
+DATA_FILE <- args[1]
+PDF_FILE <- args[2]
 
-res <- read.table("1x_primary.gene_summary.txt",sep=',',header=T)
+# create a PDF file
+pdf(file=PDF_FILE)
+
+res <- read.table(DATA_FILE,sep='\t',header=T)
 #head(res)
 
 # Calculate Z score
