@@ -13,4 +13,6 @@ Procedures for pooled sgRNA screening analysis.
     c. RIGER
     d. STAR
     e. MaGeck
-    ...
+ 
+ sgRNA_density.R: for ploting the density of sgRNA log2 fold change and displaying the sgRNA LCF of topgenes
+ volcano_plot.R: for volcano plot of all genes, and label some top genes.
