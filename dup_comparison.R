@@ -54,14 +54,4 @@ plot_Zscore <- function(rep1, rep2, rank=200, fig="dup_plot.tif") {
 	p + geom_text_repel(data=common.data, aes(label=id))
 }
 
-# load data
-TCR_CD69 <- read.table(file="TCR_CD69.gene_summary.txt", header=T, sep="\t")
-TCR_CFSE <- read.table(file="TCR_CFSE.gene_summary.txt", header=T, sep="\t")
-PD1_CD69 <- read.table(file="PD1_CD69.gene_summary.txt", header=T, sep="\t")
-PD1_CFSE <- read.table(file="PD1_CFSE.gene_summary.txt", header=T, sep="\t")
 
-# Plot
-plot_Zscore(TCR_CD69, TCR_CFSE, 200, fig="TCR_sig_cp_tp200.tif")
-plot_Zscore(TCR_CD69, TCR_CFSE, 50, fig="TCR_sig_cp_tp50.tif")
-plot_Zscore(PD1_CD69, PD1_CFSE, 200, fig="PD1_sig_cp_tp200.tif")
-plot_Zscore(PD1_CD69, PD1_CFSE, 50, fig="PD1_sig_cp_tp50.tif")
